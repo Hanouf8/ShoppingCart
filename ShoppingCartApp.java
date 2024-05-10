@@ -1,31 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 
-
-/**
- *
- * @author vip
- */
 public class ShoppingCartApp {
 
-    /**
-     * @param args the command line arguments
-     */
      public static void main(String[] args) {
-       ItemFactory itemFactory = new SimpleItemFactory(); // Create an instance of the item factory
-        ShoppingCartProxy shoppingCartProxy = new ShoppingCartProxy(itemFactory); // Create an instance of the ShoppingCartProxy
+    ItemFactory itemFactory = new SimpleItemFactory(); // Create an instance of the item factory
 
-        shoppingCartProxy.createItem("Item 1", 10.0); // Add items via the proxy
-        shoppingCartProxy.createItem("Item 2", 20.0);
-        shoppingCartProxy.pay("CreditCard"); // Pay with credit card
+    // Create an instance of the ShoppingCartProxy as the base object
+    ShoppingCartProxy shoppingCartProxy = new ShoppingCartProxy(itemFactory);
 
-        shoppingCartProxy.createItem("Item 3", 15.0); // Add more items
-        shoppingCartProxy.pay("PayPal"); // Pay with PayPal
+    // Create a decorated shopping cart with a discount
+    ItemFactory decoratedCart = new DiscountedShoppingCartDecorator(shoppingCartProxy, 0.2); // 20% discount
 
-        int number = 5;
-        int factorial = shoppingCartProxy.calculateFactorial(number); // Calculate factorial via proxy
-        System.out.println("Factorial of " + number + " is: " + factorial);
-    }
+    decoratedCart.createItem("Item 1", 10.0);
+    decoratedCart.createItem("Item 2", 20.0);
+    decoratedCart.pay("CreditCard");
+
+    double totalPrice = decoratedCart.calculateTotalPrice();
+    System.out.println("Total price after discount: $" + totalPrice);
 }
