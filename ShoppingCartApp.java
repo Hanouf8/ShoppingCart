@@ -14,22 +14,18 @@ public class ShoppingCartApp {
      * @param args the command line arguments
      */
      public static void main(String[] args) {
-        ItemFactory itemFactory = new SimpleItemFactory(); // Create an instance of the item factory
-        ShoppingCart shoppingCart = ShoppingCart.getInstance(itemFactory); // Get the instance of the shopping cart
+       ItemFactory itemFactory = new SimpleItemFactory(); // Create an instance of the item factory
+        ShoppingCartProxy shoppingCartProxy = new ShoppingCartProxy(itemFactory); // Create an instance of the ShoppingCartProxy
 
-        shoppingCart.addItem("Item 1", 10.0); // Add items to the shopping cart
-        shoppingCart.addItem("Item 2", 20.0);
-        shoppingCart.pay("CreditCard"); // Pay with credit card
-        
-        ShoppingCart shoppingCart2 = ShoppingCart.getInstance(itemFactory); // Get the existing instance of the shopping cart
-        shoppingCart2.addItem("Item 3", 15.0); // Add items to the shopping cart
-        shoppingCart2.pay("PayPal"); // Pay with PayPal
-        
+        shoppingCartProxy.createItem("Item 1", 10.0); // Add items via the proxy
+        shoppingCartProxy.createItem("Item 2", 20.0);
+        shoppingCartProxy.pay("CreditCard"); // Pay with credit card
+
+        shoppingCartProxy.createItem("Item 3", 15.0); // Add more items
+        shoppingCartProxy.pay("PayPal"); // Pay with PayPal
+
         int number = 5;
-        int factorial = shoppingCart.calculateFactorial(number); // Calculate the factorial of a number
+        int factorial = shoppingCartProxy.calculateFactorial(number); // Calculate factorial via proxy
         System.out.println("Factorial of " + number + " is: " + factorial);
     }
 }
-    
-    
-
