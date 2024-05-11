@@ -1,41 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- *
- * @author vip
- */
 public class ShoppingCart {
     
     private ItemFactory itemFactory; // Factory for creating items
     private List<Item> items; // List of items in the shopping cart
     private double totalPrice; // Total price of the items
-    private static ShoppingCart instance; // Singleton instance of the shopping cart
+    private List<Observer> observers; // List of observers
 
-    private ShoppingCart(ItemFactory itemFactory) {
+    public ShoppingCart(ItemFactory itemFactory) {
         this.itemFactory = itemFactory;
         items = new ArrayList<>();
         totalPrice = 0.0;
-    }
-
-    public static ShoppingCart getInstance(ItemFactory itemFactory) {
-        if (instance == null) {
-            instance = new ShoppingCart(itemFactory); // Create a new instance if it doesn't exist
-        }
-        return instance; // Return the existing instance
+        observers = new ArrayList<>();
     }
 
     public void addItem(String name, double price) {
         Item item = itemFactory.createItem(name, price); // Create a new item using the factory
         items.add(item); // Add the item to the list
         totalPrice += item.getPrice(); // Update the total price
+        notifyObservers(); // Notify observers about the item addition
     }
 
     public void removeItem(Item item) {
         if (items.remove(item)) {
             totalPrice -= item.getPrice(); // Remove the item from the list and update the total price
+            notifyObservers(); // Notify observers about the item removal
         }
     }
 
@@ -60,3 +50,18 @@ public class ShoppingCart {
             return number * calculateFactorial(number - 1); // Recursive case: calculate factorial using recursion
         }
     }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer); // Add an observer to the list
+    }
+
+    public void removeObserver(Observer observer) {
+        observers.remove(observer); // Remove an observer from the list
+    }
+
+    private void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update(this); // Notify each observer about the state change
+        }
+    }
+}
