@@ -2,7 +2,7 @@
 package project;
 
 
-public class ShoppingCartProxy implements ShoppingCart {
+public class ShoppingCartProxy implements ShoppingCartInterface {
     private ItemFactory itemFactory; // Factory for creating items
     private ShoppingCart realShoppingCart; // Reference to the real ShoppingCart instance
 
