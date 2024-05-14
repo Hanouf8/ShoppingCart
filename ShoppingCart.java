@@ -1,7 +1,19 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingCart {
+
+// ShoppingCart interface
+interface ShoppingCartInterface {
+    void addItem(String name, double price);
+    void removeItem(Item item);
+    double calculateTotalPrice();
+    void pay(String paymentMethod);
+    int calculateFactorial(int number);
+    void addObserver(Observer observer);
+    void removeObserver(Observer observer);
+}
+
+public class ShoppingCart implements ShoppingCartInterface {
     
     private ItemFactory itemFactory; // Factory for creating items
     private List<Item> items; // List of items in the shopping cart
@@ -15,6 +27,7 @@ public class ShoppingCart {
         observers = new ArrayList<>();
     }
 
+    @Override
     public void addItem(String name, double price) {
         Item item = itemFactory.createItem(name, price); // Create a new item using the factory
         items.add(item); // Add the item to the list
@@ -22,6 +35,7 @@ public class ShoppingCart {
         notifyObservers(); // Notify observers about the item addition
     }
 
+    @Override
     public void removeItem(Item item) {
         if (items.remove(item)) {
             totalPrice -= item.getPrice(); // Remove the item from the list and update the total price
@@ -29,10 +43,12 @@ public class ShoppingCart {
         }
     }
 
+    @Override
     public double calculateTotalPrice() {
         return totalPrice; // Return the total price of the items
     }
 
+    @Override
     public void pay(String paymentMethod) {
         if (paymentMethod.equals("CreditCard")) {
             System.out.println("Processing credit card payment: $" + calculateTotalPrice());
@@ -43,6 +59,7 @@ public class ShoppingCart {
         }
     }
 
+    @Override
     public int calculateFactorial(int number) {
         if (number == 0) {
             return 1; // Base case: factorial of 0 is 1
@@ -51,10 +68,12 @@ public class ShoppingCart {
         }
     }
 
+    @Override
     public void addObserver(Observer observer) {
         observers.add(observer); // Add an observer to the list
     }
 
+    @Override
     public void removeObserver(Observer observer) {
         observers.remove(observer); // Remove an observer from the list
     }
