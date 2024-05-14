@@ -1,4 +1,4 @@
-public abstract class ShoppingCartDecorator implements ShoppingCart {
+public abstract class ShoppingCartDecorator implements ShoppingCartInterface {
     protected ShoppingCart decoratedShoppingCart;
 
     public ShoppingCartDecorator(ShoppingCart decoratedShoppingCart) {
