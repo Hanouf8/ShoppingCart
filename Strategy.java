@@ -32,7 +32,7 @@ public abstract class Strategy implements ShoppingCartInterface {
 
 public class FreeShippingStrategy extends Strategy {
     public FreeShippingStrategy(ShoppingCartInterface shoppingCart) {
-        super(shoppingCart);
+        super(ShoppingCartInterface);
     }
 
     @Override
